@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [data, setData] = useState(null);
-
+  const [loading, setIsloading] = useState(false);
   const [showModel, setShowModal] = useState(false);
 
   const handleToggleModel = () => {
@@ -16,7 +16,7 @@ function App() {
     async function fetchAPIData() {
       const url = `https://api.nasa.gov/planetary/apod?api_key=${NASA_KEY}`;
 
-      const today = new Date().toLocaleDateString();
+      const today = (new Date()).toDateString();
       const localKey = `NASA-${today}`;
 
       if (localStorage.getItem(localKey)) {
@@ -32,7 +32,7 @@ function App() {
         const apiData = await res.json();
         localStorage.setItem(localKey, JSON.stringify(apiData));
         setData(apiData);
-        console.log("Fetched from API today");
+        console.log(apiData);
       } catch (error) {
         console.log(error.message);
       }
